@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import login as auth_login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
 from django.db import transaction
 from django.shortcuts import render, redirect
@@ -9,7 +10,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import FormView
 
-from accounts.forms import SignupForm
+from accounts.forms import SignupForm, ProfileForm
 from accounts.models import User
 
 
@@ -65,3 +66,20 @@ def signup(request):
 # class SignupView(FormView):
 #
 #     form_class = SignupForm
+
+@login_required
+def profile_edit(request):
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "프로필을 수정/저장했습니다.")
+            # return redirect(reverse("accounts:profile_edit"))
+            return redirect(reverse("root"))
+    else:
+        form = ProfileForm(instance=request.user)
+
+    return render(request, "accounts/profile_edit_form.html",{
+        "form": form,
+    })
+    pass

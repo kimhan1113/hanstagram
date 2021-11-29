@@ -16,6 +16,7 @@ import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 from django.urls import reverse_lazy
+from django.contrib.messages import constants as messages_constants
 
 env = environ.Env(
     # set casting, default value
@@ -56,6 +57,7 @@ INSTALLED_APPS = [
     # Third Apps
     'bootstrap4',
     'debug_toolbar',
+    'django_pydenticon',
 
     # Locals Apps
     'accounts',
@@ -174,3 +176,9 @@ EMAIL_HOST = os.environ.get("EMAIL_HOST")
 EMAIL_PORT = os.environ.get("EMAIL_PORT")
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+
+# 부트스트랩과 장고 message 매핑을 위해 설정해줌!!!
+MESSAGE_TAGS = {
+    messages_constants.DEBUG: 'secondary',
+    messages_constants.ERROR: 'danger',
+}
