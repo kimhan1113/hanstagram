@@ -27,6 +27,7 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('', login_required(TemplateView.as_view(template_name='root.html')), name='root'),
     path('identicon/image/<path:data>/', pydenticon_image, name='pydenticon_image'),
+    # path('identicon/image/a', pydenticon_image, name='pydenticon_image'),
 
 ]
 

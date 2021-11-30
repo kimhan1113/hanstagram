@@ -1,6 +1,7 @@
+from django.contrib.auth.views import PasswordChangeView
 from django.urls import path
 
-from accounts.views import signup, login, logout, profile_edit
+from accounts.views import signup, login, logout, profile_edit, password_change
 
 app_name = 'accounts'
 
@@ -9,5 +10,6 @@ urlpatterns = [
     path('login/', login, name='login'),
     path('logout/', logout, name='logout'),
     path('edit/', profile_edit, name='profile_edit'),
-    # path('verify/<str:key>', complete_verification),
+    path('password_change/', password_change, name='password_change'),
+
 ]
