@@ -59,12 +59,12 @@
 {#                            {% url 'pydenticon_image' user.is_authenticated %}#}
 {#                            <img src="{% url 'pydenticon_image' user.is_authenticated %}" alt="img" style="width: 24px; height: 24px; object-fit: cover; border-radius: 50%;">#}
                             <a class="me-3 py-2 text-dark text-decoration-none" href="{% url "accounts:profile_edit" %}">
-
-                                {% if user.avatar %}
-                                    <img src="{{ user.avatar.url }}" alt="img" style="width: 24px; height: 24px;">
-                                {% else %}
-                                    <img src="{% url 'pydenticon_image' user.is_authenticated %}" alt="img" style="width: 24px; height: 24px; object-fit: cover; border-radius: 50%;">
-                                {% endif %}
+                                <img src="{{ user.avatar_url }}" alt="img" style="width: 24px; height: 24px; object-fit: cover; border-radius: 50%;">
+{#                                {% if user.avatar %}#}
+{#                                    <img src="{{ user.avatar.url }}" alt="img" style="width: 24px; height: 24px;">#}
+{#                                {% else %}#}
+{#                                    <img src="{% url 'pydenticon_image' user.is_authenticated %}" alt="img" style="width: 24px; height: 24px; object-fit: cover; border-radius: 50%;">#}
+{#                                {% endif %}#}
 
 {#                                <img alt="kimhan1113님의 프로필 사진" style="border-radius: 50%; object-fit: cover; width: 22px; height: 22px;" class="_6q-tv" crossorigin="anonymous" data-testid="user-avatar" draggable="false" src="{% static "hans.jpg" %}">#}
                             </a>

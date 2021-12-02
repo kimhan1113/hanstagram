@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from django.db import models
+from django.shortcuts import resolve_url
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.core.mail import send_mail
@@ -14,6 +15,17 @@ class User(AbstractUser):
     class GenderChoices(models.TextChoices):
         MALE = "M", "남성"
         FEMALE = "F", "여성"
+
+    @property
+    def name(self):
+        return f"{self.first_name} {self.last_name}"
+
+    @property
+    def avatar_url(self):
+        if self.avatar:
+            return self.avatar.url
+        else:
+            return resolve_url("pydenticon_image", self.username)
 
 
     website_url = models.URLField(blank=True)
