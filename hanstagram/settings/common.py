@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'bootstrap4',
     'debug_toolbar',
     'django_pydenticon',
+    'easy_thumbnails',
 
     # Locals Apps
     'accounts',
@@ -132,6 +133,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
 LANGUAGE_CODE = 'ko-kr'
+
 
 TIME_ZONE = 'Asia/Seoul'
 

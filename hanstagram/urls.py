@@ -23,7 +23,7 @@ import django_pydenticon.urls
 from django_pydenticon.views import image as pydenticon_image
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin_page/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
     path('', include('instagram.urls')),
     path('', login_required(TemplateView.as_view(template_name='root.html')), name='root'),
