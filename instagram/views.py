@@ -8,6 +8,12 @@ from django.urls import reverse
 from instagram.forms import PostForm
 from instagram.models import Post
 
+@login_required
+def index(request):
+    return render(request, "instagram/index.html", {
+
+    })
+
 
 @login_required
 def post_new(request):
