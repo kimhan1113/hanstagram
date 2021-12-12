@@ -1,12 +1,16 @@
 
 <div class="d-flex mb-1">
     <div class="me-md-2">
-        <img src="{{ friend_user.avatar_url }}" alt="" style="width: 32px; height: 32px;" class="rounded-circle">
+        <img src="{{ suggested_user.avatar_url }}" alt="" style="width: 32px; height: 32px;" class="rounded-circle">
     </div>
     <div class="">
-        {{ friend_user.username }}
+        <a href="{% url "instagram:user_page" suggested_user.username %}">
+            {{ suggested_user.username }}
+        </a>
+
     </div>
     <div class="ms-auto">
-        <button>Follow</button>
+        <a href="{% url "accounts:user_follow" suggested_user.username %}">Follow</a>
+{#        <a href="{% url "user_unfollow" suggested_user.username %}">UnFollow</a>#}
     </div>
 </div>

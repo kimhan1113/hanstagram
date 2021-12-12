@@ -2,6 +2,7 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
@@ -10,8 +11,19 @@ from instagram.models import Post
 
 @login_required
 def index(request):
-    return render(request, "instagram/index.html", {
 
+    post_list = Post.objects.all().filter(
+        Q(author=request.user) |
+        Q(author__in=request.user.following_set.all())
+    )
+
+    suggested_user_list = get_user_model().objects.all().exclude(pk=request.user.pk).exclude(pk__in=request.user.following_set.all())[:3]
+
+    request.user.following_set.all()
+
+    return render(request, "instagram/index.html", {
+        "post_list": post_list,
+        "suggested_user_list": suggested_user_list,
     })
 
 
@@ -45,6 +57,13 @@ def post_detail(request, pk):
 
 def user_page(request, username):
     page_user = get_object_or_404(get_user_model(), username=username, is_active=True)
+
+    # 접속한 유저와 확인하는 유저가 팔로우가 되있는지 체크
+    if request.user.is_authenticated:
+        is_follow = request.user.following_set.filter(pk=page_user.pk).exists()
+    else:
+        is_follow = False
+
     post_list = Post.objects.filter(author=page_user)
     post_list_count = post_list.count() # 실제 데이터베이스에 count 쿼리를 던짐
     # len(post_list) # post리스트를 다 가져와서 메모리에 얹진다음에 리스트의 개수를 반환
@@ -52,4 +71,5 @@ def user_page(request, username):
         "page_user": page_user,
         "post_list": post_list,
         "post_list_count": post_list_count,
+        "is_follow": is_follow,
     })

@@ -16,6 +16,9 @@ class User(AbstractUser):
         MALE = "M", "남성"
         FEMALE = "F", "여성"
 
+    follower_set = models.ManyToManyField("self", blank=True, symmetrical=False)
+    following_set = models.ManyToManyField("self", blank=True)
+
     @property
     def name(self):
         return f"{self.first_name} {self.last_name}"
