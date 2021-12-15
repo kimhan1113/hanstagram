@@ -16,6 +16,9 @@ class BaseModel(models.Model):
     class Meta:
         abstract = True
 
+# user
+# -> Post.objects.filter(author=user)
+# -> user.post_set.all() -> 외래키 관계에서 자동으로 생성됨
 
 class Post(BaseModel):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='my_post_set',
@@ -24,7 +27,7 @@ class Post(BaseModel):
     caption = models.CharField(max_length=500)
     tag_set = models.ManyToManyField('Tag', blank=True)
     location = models.CharField(max_length=100)
-
+    like_user_set = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_post_set', blank=True)
 
     def __str__(self):
         return self.caption
@@ -41,6 +44,9 @@ class Post(BaseModel):
     def get_absolute_url(self):
         return reverse("instagram:post_detail", args=[self.pk])
 
+    def is_like_user(self, user):
+        return self.like_user_set.filter(pk=user.pk).exists()
+
     class Meta:
         ordering = ['-id']
 
@@ -49,3 +55,8 @@ class Tag(models.Model):
     name = models.CharField(max_length=50, unique=True)
     def __str__(self):
         return self.name
+
+
+# class LikeUser(models.Model):
+#     post = models.ForeignKey(Post, on_delete=models.CASCADE)
+#     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

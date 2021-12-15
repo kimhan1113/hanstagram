@@ -14,7 +14,7 @@ from instagram.models import Post
 @login_required
 def index(request):
 
-    timesince = timezone.now() - timedelta(days=3)
+    timesince = timezone.now() - timedelta(days=1)
     post_list = Post.objects.all().filter(
         Q(author=request.user) |
         Q(author__in=request.user.following_set.all())
@@ -78,3 +78,21 @@ def user_page(request, username):
         "post_list_count": post_list_count,
         "is_follow": is_follow,
     })
+
+@login_required
+def post_like(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    post.like_user_set.add(request.user)
+
+    messages.success(request, f"포스팅 #{post.pk}을 좋아합니다.")
+    redirect_url = request.META.get("HTTP_REFERER", "root")
+    return redirect(redirect_url)
+
+@login_required
+def post_unlike(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    post.like_user_set.remove(request.user)
+
+    messages.success(request, f"포스팅 #{post.pk}번 좋아요를 취소합니다.")
+    redirect_url = request.META.get("HTTP_REFERER", "root")
+    return redirect(redirect_url)
